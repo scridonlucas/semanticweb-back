@@ -9,8 +9,9 @@ const app = express();
 app.use(cors());
 
 app.get('/json-ld/', (req, res) => {
-  const rootPath = process.cwd();
-  res.sendFile(path.join(rootPath, 'jsonLdHtmlPage', 'index.html'));
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
+  res.sendFile(path.join(__dirname, '..', 'sourcePage', 'index.html'));
 });
 
 app.get('/', (req, res) => {
