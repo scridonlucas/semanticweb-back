@@ -1,8 +1,9 @@
 import express from 'express';
 import scrapeRouter from './routes/scrape.js';
+import cors from 'cors';
 
 const app = express();
-
+app.use(cors());
 app.get('/', (req, res) => {
   res.send('Proiect Web Semantic - Scridon Lucas, Timandi Sabin');
 });
