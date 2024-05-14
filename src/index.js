@@ -14,10 +14,11 @@ app.get('/json-ld/', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'sourcePage', 'index.html'));
 });
 
+app.use('/api/scrape/', scrapeRouter);
+
 app.get('/', (req, res) => {
   res.send('Proiect Web Semantic - Scridon Lucas, Timandi Sabin');
 });
-app.use('/api/scrape/', scrapeRouter);
 
 const PORT = 3001;
 app.listen(PORT, () => {
