@@ -6,17 +6,19 @@ const scrapeRouter = Router();
 const url = 'http://localhost:3001/json-ld/';
 
 function parseData(jsonData) {
-  const parsedData = jsonData['@graph'].map((flight) => ({
-    id: flight.flightNumber,
-    airport: {
-      name: flight.airport.name,
-      address: {
-        addressLocality: flight.airport.address.addressLocality,
-        country: flight.airport.address.addressCountry,
-      },
+  const parsedData = jsonData['@graph'].map((airport) => ({
+    id: airport['@id'],
+    name: airport.name,
+    address: {
+      locality: airport.address.addressLocality,
+      country: airport.address.addressCountry,
     },
-    arrivalAirport: flight.arrivalAirport,
-    departureTime: flight.departureTime,
+    flights: airport.flights.map((flight) => ({
+      id: flight['@id'],
+      flightNumber: flight.flightNumber,
+      destination: flight.arrivalAirport,
+      departureTime: flight.departureTime,
+    })),
   }));
   return parsedData;
 }
