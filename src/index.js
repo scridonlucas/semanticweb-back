@@ -16,7 +16,7 @@ app.get('/json-ld/', (req, res) => {
 });
 
 app.use('/api/scrape/', scrapeRouter);
-app.use('/api/rdfRouter/', rdfRouter);
+app.use('/api/rdf/', rdfRouter);
 
 app.get('/', (req, res) => {
   res.send('Proiect Web Semantic - Scridon Lucas, Timandi Sabin');
