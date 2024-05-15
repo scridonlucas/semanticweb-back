@@ -9,94 +9,92 @@
         "@context": "https://schema.org",
         "@graph": [
           {
-            "@type": "Flight",
-            "flightNumber": "1",
-            "airport": {
-              "@type": "Airport",
-              "name": "Aeroportul International Henri Coanda",
-              "address": {
-                "@type": "PostalAddress",
-                "addressLocality": "Bucuresti",
-                "addressCountry": "Romania"
-              }
+            "@type": "Airport",
+            "@id": "AIHC",
+            "name": "Aeroportul International Henri Coanda",
+            "iataCode": "OTP",
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "Bucuresti",
+              "addressCountry": "Romania"
             },
-            "arrivalAirport": "Paris, Franta",
-            "departureTime": "2024-06-15T10:30:00+02:00"
+            "flights": [
+              {
+                "@type": "Flight",
+                "@id": "1",
+                "flightNumber": "BD123",
+                "arrivalAirport": "Paris, Franta",
+                "departureTime": "2024-06-15T10:30:00+02:00"
+              },
+              {
+                "@type": "Flight",
+                "@id": "2",
+                "flightNumber": "XX332",
+                "arrivalAirport": "Frankfurt, Germania",
+                "departureTime": "2024-06-15T12:00:00+02:00"
+              },
+              {
+                "@type": "Flight",
+                "@id": "3",
+                "flightNumber": "FF121",
+                "arrivalAirport": "Milano, Italia",
+                "departureTime": "2024-06-17T09:15:00+02:00"
+              }
+            ]
           },
           {
-            "@type": "Flight",
-            "flightNumber": "2",
-            "airport": {
-              "@type": "Airport",
-              "name": "Aeroportul International Henri Coanda",
-              "address": {
-                "@type": "PostalAddress",
-                "addressLocality": "Bucuresti",
-                "addressCountry": "Romania"
-              }
+            "@type": "Airport",
+            "@id": "AIVI",
+            "name": "Aeroportul International Avram Iancu",
+            "iataCode": "CLJ",
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "Cluj-Napoca",
+              "addressCountry": "Romania"
             },
-            "arrivalAirport": "Frankfurt, Germania",
-            "departureTime": "2024-06-15T12:00:00+02:00"
+            "flights": [
+              {
+                "@type": "Flight",
+                "@id": "4",
+                "flightNumber": "JJ988",
+                "arrivalAirport": "Londra, Marea Britanie",
+                "departureTime": "2024-06-16T14:45:00+02:00"
+              },
+              {
+                "@type": "Flight",
+                "@id": "5",
+                "flightNumber": "HG131",
+                "arrivalAirport": "Paris, Franta",
+                "departureTime": "2024-06-16T16:30:00+02:00"
+              }
+            ]
           },
           {
-            "@type": "Flight",
-            "flightNumber": "3",
-            "airport": {
-              "@type": "Airport",
-              "name": "Aeroportul International Avram Iancu",
-              "address": {
-                "@type": "PostalAddress",
-                "addressLocality": "Cluj-Napoca",
-                "addressCountry": "Romania"
-              }
+            "@type": "Airport",
+            "@id": "AITV",
+            "name": "Aeroportul International Traian Vuia",
+            "iataCode": "TSR",
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "Timisoara",
+              "addressCountry": "Romania"
             },
-            "arrivalAirport": "Londra, Marea Britanie",
-            "departureTime": "2024-06-16T14:45:00+02:00"
-          },
-          {
-            "@type": "Flight",
-            "flightNumber": "4",
-            "airport": {
-              "@type": "Airport",
-              "name": "Aeroportul International Avram Iancu",
-              "address": {
-                "@type": "PostalAddress",
-                "addressLocality": "Cluj-Napoca",
-                "addressCountry": "Romania"
+            "flights": [
+              {
+                "@type": "Flight",
+                "@id": "6",
+                "flightNumber": "ESP331",
+                "arrivalAirport": "Barcelona, Spania",
+                "departureTime": "2024-06-17T09:15:00+02:00"
+              },
+              {
+                "@type": "Flight",
+                "@id": "7",
+                "flightNumber": "JK452",
+                "arrivalAirport": "Athena, Grecia",
+                "departureTime": "2024-06-18T09:15:00+02:00"
               }
-            },
-            "arrivalAirport": "Paris, Franta",
-            "departureTime": "2024-06-16T16:30:00+02:00"
-          },
-          {
-            "@type": "Flight",
-            "flightNumber": "5",
-            "airport": {
-              "@type": "Airport",
-              "name": "Aeroportul International Traian Vuia",
-              "address": {
-                "@type": "PostalAddress",
-                "addressLocality": "Timisoara",
-                "addressCountry": "Romania"
-              }
-            },
-            "arrivalAirport": "Barcelona, Spania",
-            "departureTime": "2024-06-17T09:15:00+02:00"
-          },
-          {
-            "@type": "Flight",
-            "flightNumber": "6",
-            "airport": {
-              "@type": "Airport",
-              "name": "Aeroportul International Henri Coanda",
-              "address": {
-                "@type": "PostalAddress",
-                "addressLocality": "Bucuresti",
-                "addressCountry": "Romania"
-              }
-            },
-            "arrivalAirport": "Milano, Italia",
-            "departureTime": "2024-06-17T09:15:00+02:00"
+            ]
           }
         ]
       }

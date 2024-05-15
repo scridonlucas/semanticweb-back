@@ -9,6 +9,7 @@ function parseData(jsonData) {
   const parsedData = jsonData['@graph'].map((airport) => ({
     id: airport['@id'],
     name: airport.name,
+    iataCode: airport.iataCode,
     address: {
       locality: airport.address.addressLocality,
       country: airport.address.addressCountry,
