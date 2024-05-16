@@ -8,7 +8,7 @@ const repository = 'airports-repo';
 
 const rdfRouter = Router();
 
-const parseData = ({ airportKey, allAirports, flight }) => {
+const parseJStoRdfTurtle = ({ airportKey, allAirports, flight }) => {
   const airport = allAirports.find((airport) => airport.id === airportKey);
   if (airport) {
     airport.flights.push({
@@ -21,6 +21,33 @@ const parseData = ({ airportKey, allAirports, flight }) => {
   } else {
     throw new Error('Airport not found!');
   }
+};
+
+const parseRDFtoJSON = (results) => {
+  const airports = {};
+  results.forEach((result) => {
+    const airportId = result.airport.value;
+    if (!airports[airportId]) {
+      airports[airportId] = {
+        id: airportId,
+        name: result.name.value,
+        iataCode: result.iataCode.value,
+        address: {
+          locality: result.addressLocality.value,
+          country: result.addressCountry.value,
+        },
+        flights: [],
+      };
+    }
+
+    airports[airportId].flights.push({
+      id: result.flight.value,
+      flightNumber: result.flightNumber.value,
+      arrivalAirport: result.arrivalAirport.value,
+      departureTime: result.departureTime.value,
+    });
+  });
+  return airports;
 };
 
 const clearRepository = async () => {
@@ -41,12 +68,23 @@ rdfRouter.post('/', async (req, res) => {
   }
   try {
     await clearRepository();
-    const parsedData = parseData(formData);
+    const parsedData = parseJStoRdfTurtle(formData);
 
     const writer = new Writer({
-      prefixes: { schema: 'http://schema.org/', ex: 'http://example.org/' },
+      prefixes: {
+        schema: 'http://schema.org/',
+        ex: 'http://example.org/',
+        rdf: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
+      },
     });
+
     parsedData.forEach((airport) => {
+      writer.addQuad(
+        DataFactory.namedNode(`http://example.org/airport/${airport.id}`),
+        DataFactory.namedNode('rdf:type'),
+        DataFactory.namedNode('schema:Airport')
+      );
+
       writer.addQuad(
         DataFactory.namedNode(`http://example.org/airport/${airport.id}`),
         DataFactory.namedNode('http://schema.org/name'),
@@ -131,6 +169,43 @@ rdfRouter.post('/', async (req, res) => {
     res.json('Airports data successfully added to RDF4J server!');
   } catch (error) {
     res.status(500).send('Error while sending data to RDF4J Server!');
+  }
+});
+
+rdfRouter.get('/', async (req, res) => {
+  try {
+    const query = `
+      PREFIX schema: <http://schema.org/>
+      SELECT ?airport ?name ?iataCode ?addressLocality ?addressCountry ?flight ?flightNumber ?arrivalAirport ?departureTime WHERE {
+        ?airport a schema:Airport ;
+                 schema:name ?name ;
+                 schema:iataCode ?iataCode ;
+                 schema:addressLocality ?addressLocality ;
+                 schema:addressCountry ?addressCountry ;
+                 schema:hasFlight ?flight .
+        ?flight schema:flightNumber ?flightNumber ;
+                schema:arrivalAirport ?arrivalAirport ;
+                schema:departureTime ?departureTime .
+      }
+    `;
+    const encodedQuery = encodeURIComponent(query);
+    const response = await axios.get(
+      `${rdf4jBaseUrl}/${repository}?query=${encodedQuery}`,
+      {
+        headers: {
+          Accept: 'application/sparql-results+json',
+        },
+      }
+    );
+
+    const results = response.data.results.bindings;
+    if (results.length === 0) {
+      res.status(500).send('Failed to gather data from RDF4J Server!');
+    }
+    const airports = parseRDFtoJSON(results);
+    res.json(airports);
+  } catch (error) {
+    res.status(500).send('Failed to gather data from RDF4J Server!');
   }
 });
 
