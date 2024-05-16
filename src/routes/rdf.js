@@ -12,9 +12,9 @@ const parseJStoRdfTurtle = ({ airportKey, allAirports, flight }) => {
   const airport = allAirports.find((airport) => airport.id === airportKey);
   if (airport) {
     airport.flights.push({
-      id: (airport.flights.length + 1).toString(),
+      id: Math.floor(Math.random() * 100 + 1).toString(),
       flightNumber: flight.flightNumber,
-      arrivalAirport: flight.arrivalAirport,
+      address: flight.arrivalAirport,
       departureTime: flight.departureTime,
     });
     return allAirports;
@@ -69,7 +69,7 @@ rdfRouter.post('/', async (req, res) => {
   try {
     await clearRepository();
     const parsedData = parseJStoRdfTurtle(formData);
-
+    console.log(parsedData[1].flights);
     const writer = new Writer({
       prefixes: {
         schema: 'http://schema.org/',
@@ -164,8 +164,6 @@ rdfRouter.post('/', async (req, res) => {
         },
       }
     );
-    console.log('test');
-    console.log(response);
     res.json('Airports data successfully added to RDF4J server!');
   } catch (error) {
     res.status(500).send('Error while sending data to RDF4J Server!');
@@ -203,7 +201,8 @@ rdfRouter.get('/', async (req, res) => {
       res.status(500).send('Failed to gather data from RDF4J Server!');
     }
     const airports = parseRDFtoJSON(results);
-    res.json(airports);
+    console.log(Object.values(airports));
+    res.json(Object.values(airports));
   } catch (error) {
     res.status(500).send('Failed to gather data from RDF4J Server!');
   }
