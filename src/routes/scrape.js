@@ -17,7 +17,7 @@ function parseData(jsonData) {
     flights: airport.flights.map((flight) => ({
       id: flight['@id'],
       flightNumber: flight.flightNumber,
-      destination: flight.arrivalAirport,
+      arrivalAirport: flight.arrivalAirport,
       departureTime: flight.departureTime,
     })),
   }));
