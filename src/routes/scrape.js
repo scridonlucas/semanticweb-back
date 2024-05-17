@@ -33,6 +33,7 @@ scrapeRouter.get('/', async (_req, res) => {
     if (jsonLdScript) {
       const jsonData = JSON.parse(jsonLdScript);
       const parsedData = parseData(jsonData);
+      console.log(parsedData);
       res.json(parsedData);
     } else {
       res.status(404).json({ error: 'No JSON-LD found' });
